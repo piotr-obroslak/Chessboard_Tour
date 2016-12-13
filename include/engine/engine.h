@@ -19,22 +19,6 @@ namespace chessboard_tour
     };
 
 
-/*    class i_chessboard
-    {
-    public:
-        virtual unsigned rows() const = 0;
-        virtual unsigned columns() const = 0;
-        virtual unsigned & at(
-            const unsigned row, const unsigned column) = 0;
-
-        const unsigned & at(
-            const unsigned row, const unsigned column) const
-        {
-            return const_cast<i_chessboard&>(*this).at(row, column);
-        }
-    };*/
-    
-
     class i_chessman
     {
     public:
@@ -65,7 +49,6 @@ namespace chessboard_tour
         };
 
         result solve(
-            //i_chessboard & chessboard,
             const unsigned rows, const unsigned columns,
             const unsigned from_row, const unsigned from_col,
             i_chessman & chessman,
