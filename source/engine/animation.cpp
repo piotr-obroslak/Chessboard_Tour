@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define ANIMATION_DELAY (250000)
+#define ANIMATION_DELAY (25000/*0*/)
 
 namespace chessboard_tour
 {

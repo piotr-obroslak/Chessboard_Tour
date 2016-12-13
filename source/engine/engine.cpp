@@ -73,31 +73,27 @@ namespace chessboard_tour
                 CHESSBOARD_TOUR_EXCEPTION_SECURE
                 (
 #if USE_WARNSDORFS_HEURISTIC
-                    unsigned best = chessman.move_No();
+                    unsigned best = chessman.move_No()+1;
                     unsigned best_idx = chessman.move_No();
                     for (unsigned mv=0; mv<chessman.move_No(); mv++)
                     {
                         const auto move = chessman.at(mv);
                         const auto next_row = row + move.dr;
                         const auto next_column = column + move.dc;
-                        //std::cout << "analyzing: " << next_row+1 << " " << next_column+1 << std::endl;
 
                         if (considered[mv])
                         {
-                            //std::cout << "\talready analyzed" << std::endl;
                             continue;
                         }
 
                         if (next_row < 0 || next_row >= static_cast<signed>(cb.rows()) ||
                             next_column < 0 || next_column >= static_cast<signed>(cb.columns()))
                         {
-                            //std::cout << "\tout of chessboard" << std::endl;
                             continue;
                         }
 
                         if (cb[next_row][next_column] != 0)
                         {
-                            //std::cout << "\ttaken previously" << std::endl;
                             continue;
                         }
 
@@ -118,8 +114,6 @@ namespace chessboard_tour
                             options++;
                         }
                         
-                        //std::cout << "\tpossible moves " << options << std::endl;
-
                         if (options < best)
                         {
                             best = options;
@@ -137,7 +131,6 @@ namespace chessboard_tour
                         next.column = next_column;
                         next.No = No + 1;
 
-                        //std::cout << "\tfinally choosen: " << next_row+1 << " " << next_column+1 << std::endl;
                         considered[best_idx] = true;
                         return true;
                     }

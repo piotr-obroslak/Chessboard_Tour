@@ -3,23 +3,30 @@
 #include "engine/except.h"
 #include "engine/knight.h"
 #include "engine/storyteller.h"
+#include "engine/superqueen.h"
 
 #include <iostream>
 
 int main(int argc, char * argv[])
 {
     using exception = chessboard_tour::exception;
-    using knight = chessboard_tour::knight;
     using engine = chessboard_tour::engine;
-    using animation = chessboard_tour::animation;
-    using storyteller = chessboard_tour::storyteller;
 
     try
     {
+        using animation = chessboard_tour::animation;
         animation consumer;
+
+        //using storyteller = chessboard_tour::storyteller;
         //storyteller consumer;
+
+        using knight = chessboard_tour::knight;
         knight kn;
-        const auto result = engine().solve(16, 16, 9, 8, kn, consumer);
+        engine().solve(16, 16, 9, 8, kn, consumer);
+
+        //using superqueen = chessboard_tour::superqueen;
+        //superqueen sq;
+        //engine().solve(8, 8, 1, 1, sq, consumer);
     }
     catch (exception & e)
     {
