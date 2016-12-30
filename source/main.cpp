@@ -3,7 +3,7 @@
 #include "engine/except.h"
 #include "engine/knight.h"
 #include "engine/storyteller.h"
-#include "engine/superqueen.h"
+#include "engine/superking.h"
 
 #include <iostream>
 
@@ -24,9 +24,9 @@ int main(int argc, char * argv[])
         knight kn;
         engine().solve(16, 16, 9, 8, kn, consumer);
 
-        //using superqueen = chessboard_tour::superqueen;
-        //superqueen sq;
-        //engine().solve(8, 8, 1, 1, sq, consumer);
+        //using superking = chessboard_tour::superking;
+        //superking sk;
+        //engine().solve(8, 8, 1, 1, sk, consumer);
     }
     catch (exception & e)
     {

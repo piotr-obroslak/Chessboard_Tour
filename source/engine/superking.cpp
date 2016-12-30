@@ -14,7 +14,7 @@ namespace chessboard_tour
 
     /*static*/ const std::vector<i_chessman::move> superking::impl::moves = 
     {
-        /* a regular queen would of course traverse the whole chessboard in linear time
+        /* a regular king would of course traverse the whole chessboard in linear time
          * for the one described below it won't be so easy...
          * */
         {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {2, 2}, {2, 0}, {2, -2}, {0, -2}
