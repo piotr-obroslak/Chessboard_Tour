@@ -1,5 +1,5 @@
-#ifndef __KT_SUPERQUEEN_H__
-#define __KT_SUPERQUEEN_H__
+#ifndef __KT_SUPERKING_H__
+#define __KT_SUPERKING_H__
 
 #include "engine/engine.h"
 
@@ -7,12 +7,12 @@
 
 namespace chessboard_tour
 {
-    class superqueen
+    class superking
         : public i_chessman
     {
     public:
-        superqueen();
-        ~superqueen();
+        superking();
+        ~superking();
 
         unsigned move_No() const override;
         move at(const unsigned idx) const override;

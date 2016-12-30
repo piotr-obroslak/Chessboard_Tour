@@ -1,18 +1,18 @@
 #include "engine/except.h"
-#include "engine/superqueen.h"
+#include "engine/superking.h"
 
 #include <vector>
 
 namespace chessboard_tour
 {
-    class superqueen::impl
+    class superking::impl
     {
-        friend class superqueen;
+        friend class superking;
 
         static const std::vector<i_chessman::move> moves;
     };
 
-    /*static*/ const std::vector<i_chessman::move> superqueen::impl::moves = 
+    /*static*/ const std::vector<i_chessman::move> superking::impl::moves = 
     {
         /* a regular queen would of course traverse the whole chessboard in linear time
          * for the one described below it won't be so easy...
@@ -20,7 +20,7 @@ namespace chessboard_tour
         {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {2, 2}, {2, 0}, {2, -2}, {0, -2}
     };
 
-    superqueen::superqueen()
+    superking::superking()
         : pimpl(nullptr)
     {
         CHESSBOARD_TOUR_EXCEPTION_SECURE
@@ -29,11 +29,11 @@ namespace chessboard_tour
         );
     }
 
-    superqueen::~superqueen()
+    superking::~superking()
     {
     }
 
-    unsigned superqueen::move_No() const /*override*/
+    unsigned superking::move_No() const /*override*/
     {
         CHESSBOARD_TOUR_EXCEPTION_SECURE
         (
@@ -43,7 +43,7 @@ namespace chessboard_tour
         return 0;
     }
 
-    i_chessman::move superqueen::at(const unsigned idx) const /*override*/
+    i_chessman::move superking::at(const unsigned idx) const /*override*/
     {
         CHESSBOARD_TOUR_EXCEPTION_SECURE
         (
