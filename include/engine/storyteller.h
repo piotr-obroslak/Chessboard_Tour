@@ -1,5 +1,5 @@
-#ifndef __KT_STORYTELLER_H__
-#define __KT_STORYTELLER_H__
+#ifndef __CT_STORYTELLER_H__
+#define __CT_STORYTELLER_H__
 
 #include "engine/engine.h"
 

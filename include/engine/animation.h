@@ -1,5 +1,5 @@
-#ifndef __KT_ANIMATION__
-#define __KT_ANIMATION__
+#ifndef __CT_ANIMATION__
+#define __CT_ANIMATION__
 
 #include "engine/engine.h"
 

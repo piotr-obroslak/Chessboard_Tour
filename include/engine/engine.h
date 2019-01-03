@@ -1,5 +1,5 @@
-#ifndef __KT_ENGINE_H__
-#define __KT_ENGINE_H__
+#ifndef __CT_ENGINE_H__
+#define __CT_ENGINE_H__
 
 #include <iostream>
 #include <memory>
