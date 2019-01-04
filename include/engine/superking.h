@@ -1,5 +1,5 @@
-#ifndef __KT_SUPERKING_H__
-#define __KT_SUPERKING_H__
+#ifndef __CT_SUPERKING_H__
+#define __CT_SUPERKING_H__
 
 #include "engine/engine.h"
 

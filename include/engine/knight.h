@@ -1,5 +1,5 @@
-#ifndef __KT_KNIGHT_H__
-#define __KT_KNIGHT_H__
+#ifndef __CT_KNIGHT_H__
+#define __CT_KNIGHT_H__
 
 #include "engine/engine.h"
 
