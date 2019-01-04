@@ -54,9 +54,6 @@ namespace chessboard_tour
             jump(const signed r, const signed c, const unsigned opts)
                 : row(r), column(c), No(1), opt(opts)
             {
-#if USE_WARNSDORFS_HEURISTIC
-                considered.resize(opts, false);
-#endif
             }
 /*
             jump(const jump &that)
@@ -65,14 +62,72 @@ namespace chessboard_tour
 
             }*/
 
-            bool next(
+            virtual ~jump()
+            {
+            }
+
+            virtual bool next(
                 chessboard & cb,
                 const i_chessman & chessman,
                 jump & next)
             {
                 CHESSBOARD_TOUR_EXCEPTION_SECURE
                 (
-#if USE_WARNSDORFS_HEURISTIC
+                    while (opt > 0)
+                    {
+                        const auto move = chessman.at(chessman.move_No() - opt);
+                        const auto next_row = row + move.dr;
+                        const auto next_column = column + move.dc;
+
+                        if (next_row < 0 || next_row >= static_cast<signed>(cb.rows()) ||
+                            next_column < 0 || next_column >= static_cast<signed>(cb.columns()))
+                        {
+                            opt--;
+                            continue;
+                        }
+
+                        if (cb[next_row][next_column] != 0)
+                        {
+                            opt--;
+                            continue;
+                        }
+
+                        next.row = next_row;
+                        next.column = next_column;
+                        next.No = No + 1;
+                        next.opt = chessman.move_No();
+
+                        opt--;
+                        return true;
+                    }
+                );
+
+                return false;
+            }
+
+            signed row;
+            signed column;
+            unsigned No;
+            unsigned opt;
+
+        };
+
+        struct Warnsdorfs_jump
+            : public jump
+        {
+            Warnsdorfs_jump(const signed r, const signed c, const unsigned opts)
+                : jump(r, c, opts)
+            {
+                considered.resize(opts, false);
+            }
+
+            virtual bool next(
+                chessboard & cb,
+                const i_chessman & chessman,
+                jump & next)
+            {
+                CHESSBOARD_TOUR_EXCEPTION_SECURE
+                (
                     unsigned best = chessman.move_No()+1;
                     unsigned best_idx = chessman.move_No();
                     for (unsigned mv=0; mv<chessman.move_No(); mv++)
@@ -134,50 +189,16 @@ namespace chessboard_tour
                         considered[best_idx] = true;
                         return true;
                     }
-#else
-                    while (opt > 0)
-                    {
-                        const auto move = chessman.at(chessman.move_No() - opt);
-                        const auto next_row = row + move.dr;
-                        const auto next_column = column + move.dc;
-
-                        if (next_row < 0 || next_row >= static_cast<signed>(cb.rows()) ||
-                            next_column < 0 || next_column >= static_cast<signed>(cb.columns()))
-                        {
-                            opt--;
-                            continue;
-                        }
-
-                        if (cb[next_row][next_column] != 0)
-                        {
-                            opt--;
-                            continue;
-                        }
-
-                        next.row = next_row;
-                        next.column = next_column;
-                        next.No = No + 1;
-                        next.opt = chessman.move_No();
-
-                        opt--;
-                        return true;
-                    }
-#endif
                 );
 
                 return false;
             }
 
-            signed row;
-            signed column;
-            unsigned No;
-            unsigned opt;
-
-#if USE_WARNSDORFS_HEURISTIC
             std::vector<bool> considered;
-#endif
         };
+
     };
+
 
     engine::result engine::impl::solve(
         const unsigned rows, const unsigned columns,
@@ -191,9 +212,17 @@ namespace chessboard_tour
 
             chessboard cb(rows, columns);
 
-            std::stack<jump> s;
-            s.push(jump(from_row-1, from_col-1, chessman.move_No()));
+            auto create_jump = [](const unsigned rows, const unsigned columns, const unsigned opts)
+            {
+#if USE_WARNSDORFS_HEURISTIC
+                return std::shared_ptr<jump>(new Warnsdorfs_jump(rows, columns, opts));
+#else
+                return std::shared_ptr<jump>(new jump(rows, columns, opts));
+#endif
+            };
 
+            std::stack<std::shared_ptr<jump>> s;
+            s.push(create_jump(from_row-1, from_col-1, chessman.move_No()));
             const auto expected_jump_No = cb.rows() * cb.columns();
 
             while (!s.empty())
@@ -205,28 +234,28 @@ namespace chessboard_tour
                 }
 
                 auto & curr = s.top();
-                cb[curr.row][curr.column] = curr.No;
-                consumer.on_advance_to_position(curr.row+1, curr.column+1, curr.No);
+                cb[curr->row][curr->column] = curr->No;
+                consumer.on_advance_to_position(curr->row+1, curr->column+1, curr->No);
 
-                if (cb[curr.row][curr.column] == expected_jump_No)
+                if (cb[curr->row][curr->column] == expected_jump_No)
                 {
                     r = result::solved;
                     break;
                 }
 
-                jump next(curr.row, curr.column, chessman.move_No());
-                if (curr.next(cb, chessman, next))
+                auto next = create_jump(curr->row, curr->column, chessman.move_No());
+                if (curr->next(cb, chessman, *next))
                 {
                     // there is a possible move... forward
                     s.push(next);
                 }
                 else
                 {
+                    cb[curr->row][curr->column] = 0;
+                    consumer.on_backtrack_from_position(curr->row+1, curr->column+1, curr->No);
+
                     // no move is possible... backtrack
                     s.pop();
-
-                    cb[curr.row][curr.column] = 0;
-                    consumer.on_backtrack_from_position(curr.row+1, curr.column+1, curr.No);
                 }
             }
 
