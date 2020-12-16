@@ -22,11 +22,11 @@ int main(int argc, char * argv[])
 
         using knight = chessboard_tour::knight;
         knight kn;
-        engine().solve(16, 16, 9, 8, kn, consumer);
+        engine().solve(8, 8, 2, 2, kn, consumer);
 
         //using superking = chessboard_tour::superking;
         //superking sk;
-        //engine().solve(8, 8, 1, 1, sk, consumer);
+        //engine().solve(5, 5, 1, 1, sk, consumer);
     }
     catch (exception & e)
     {

@@ -5,7 +5,7 @@
 
 namespace chessboard_tour
 {
-    void storyteller::on_start() /*override*/
+    void storyteller::on_start(const unsigned ranks, const unsigned files) /*override*/
     {
 
     }
@@ -20,14 +20,14 @@ namespace chessboard_tour
     }
 
     void storyteller::on_advance_to_position(
-        const unsigned row, const unsigned column, const unsigned No) /*override*/
+        const unsigned rank, const unsigned file, const unsigned No) /*override*/
     {
-        std::cout << "fwd: " << "<" << row << "," << column << ">" << " @ " << No << std::endl;
+        std::cout << "fwd: " << "<" << rank << "," << file << ">" << " @ " << No << std::endl;
     }
 
     void storyteller::on_backtrack_from_position(
-        const unsigned row, const unsigned column, const unsigned No) /*override*/
+        const unsigned rank, const unsigned file, const unsigned No) /*override*/
     {
-        std::cout << "rev: " << "<" << row << "," << column << ">" << " @ " << No << std::endl;
+        std::cout << "rev: " << "<" << rank << "," << file << ">" << " @ " << No << std::endl;
     }
 }

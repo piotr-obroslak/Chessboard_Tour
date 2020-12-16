@@ -280,16 +280,16 @@ namespace chessboard_tour
     }
 
     engine::result engine::solve(
-        const unsigned rows, const unsigned columns,
-        const unsigned from_row, const unsigned from_col,
+        const unsigned ranks, const unsigned files,
+        const unsigned from_rank, const unsigned from_file,
         i_chessman & chessman,
         i_consumer & consumer)
     {
         CHESSBOARD_TOUR_EXCEPTION_SECURE
         (
-            consumer.on_start();
+            consumer.on_start(ranks, files);
             
-            const auto r = pimpl->solve(rows, columns, from_row, from_col, chessman, consumer);
+            const auto r = pimpl->solve(ranks, files, from_rank, from_file, chessman, consumer);
 
             consumer.on_finish();
 

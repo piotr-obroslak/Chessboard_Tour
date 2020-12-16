@@ -8,13 +8,13 @@ namespace chessboard_tour
     class storyteller
         : public i_consumer
     {
-        void on_start() override;
+        void on_start(const unsigned ranks, const unsigned files) override;
         void on_finish() override;
         bool on_is_cancelled() override;
         void on_advance_to_position(
-            const unsigned row, const unsigned column, const unsigned No) override;
+            const unsigned rank, const unsigned file, const unsigned No) override;
         void on_backtrack_from_position(
-            const unsigned row, const unsigned column, const unsigned No) override;
+            const unsigned rank, const unsigned file, const unsigned No) override;
     };
 }
 

@@ -9,13 +9,13 @@ namespace chessboard_tour
     class i_consumer
     {
     public:
-        virtual void on_start() = 0;
+        virtual void on_start(const unsigned ranks = 8, const unsigned files = 8) = 0;
         virtual void on_finish() = 0;
         virtual bool on_is_cancelled() = 0;
         virtual void on_advance_to_position(
-            const unsigned row, const unsigned column, const unsigned No) = 0;
+            const unsigned rank, const unsigned file, const unsigned No) = 0;
         virtual void on_backtrack_from_position(
-            const unsigned row, const unsigned column, const unsigned No) = 0;
+            const unsigned rank, const unsigned file, const unsigned No) = 0;
     };
 
 
